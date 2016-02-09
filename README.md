@@ -1,5 +1,8 @@
-# feistel_fpe
-Feistel Cipher with Format-Preserving Encryption (for small natural number domains).
+# Vader library. (VDR)
+C++ Cryptography library. At this poinst is just wrapper around some of OpenSSL library tools.
+
+##feistel_fpe
+Unique tool of this library is Feistel Cipher with Format-Preserving Encryption (for small natural number domains).
 
 ## Dependencies
 
