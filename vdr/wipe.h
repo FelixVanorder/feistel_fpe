@@ -16,12 +16,20 @@ namespace vdr
 	{			
 		static void enforce_presence( void * p )
 		{
+			#ifdef _MSC_VER
+				#warning "Escaping of memory optimizations not implemented for Miscrosoft compiler."
+			#else
 			asm volatile( "" : : "g"(p) : "memory" );
+			#endif
 		}
 
 		static void clobber()
 		{
+			#ifdef _MSC_VER
+				#warning "Escaping of memory optimizations not implemented for Miscrosoft compiler."
+			#else
 			asm volatile( "" : : : "memory" );
+			#endif
 		}
 	}
 
