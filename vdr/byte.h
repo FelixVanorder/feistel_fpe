@@ -18,18 +18,18 @@ typedef std::make_signed< byte_t >::type sbyte_t;
 
 
 static_assert(
-		std::numeric_limits< byte_t >::is_signed == false
-		and
-		std::numeric_limits< byte_t >::digits == 8, 
-		"Byte must be an unsigned integer type of 8 bits." 
-	);
+        std::numeric_limits< byte_t >::is_signed == false
+        and
+        std::numeric_limits< byte_t >::digits == 8,
+        "Byte must be an unsigned integer type of 8 bits."
+    );
 
 static_assert(
-		std::numeric_limits< sbyte_t >::is_signed == true
-		and
-		std::numeric_limits< sbyte_t >::digits == 7, 
-		"SByte must be a signed integer type of valuable 7 bits." 
-	);
+        std::numeric_limits< sbyte_t >::is_signed == true
+        and
+        std::numeric_limits< sbyte_t >::digits == 7,
+        "SByte must be a signed integer type of valuable 7 bits."
+    );
 
 
 
