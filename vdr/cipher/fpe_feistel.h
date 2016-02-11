@@ -174,7 +174,7 @@ namespace vdr
                 //std::cout << "thorp_shuffle(): "  << "masked source block: " << tobin( masked_source_block ) << "\n";
 
                 block_t target_block;
-                _round_cipher.enc( gsl::as_bytes( gsl::as_span( masked_source_block ) ), gsl::as_writeable_bytes( gsl::as_span( target_block ) ) );
+                _source_cipher.enc( gsl::as_bytes( gsl::as_span( masked_source_block ) ), gsl::as_writeable_bytes( gsl::as_span( target_block ) ) );
                 //std::cout << "thorp_shuffle(): "  << "      source cipher: " << tobin( target_block ) << "\n";
 
                 uintmax_t const target = block_to_target( target_block );
