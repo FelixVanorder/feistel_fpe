@@ -129,10 +129,10 @@ namespace vdr
                 , _target_bits( 1 )
                 , _source_bits( int_log2( up_to_pow2( domain_size) ) - _target_bits )
             {
-                vdr::mac::hmac< vdr::hash::sha256 > hash( gsl::as_bytes( gsl::as_span(raw_key) ) );
+                vdr::mac::hmac< vdr::hash::sha256 > mac( gsl::as_bytes( gsl::as_span(raw_key) ) );
                 {
-                    std::array< gsl::byte, decltype(hash)::digest_bytes > derived_key;
-                    hash
+                    auto derived_key = mac.get_empty_digest();
+                    mac
                         << gsl::as_bytes( gsl::ensure_z("for key") )
                         >> derived_key;
                     //std::cout << "source key: " << tobin( derived_key ) << "\n";
@@ -140,8 +140,8 @@ namespace vdr
                     vdr::wipe( derived_key );
                 }
                 {
-                    std::array< gsl::byte, decltype(hash)::digest_bytes > derived_key;
-                    hash
+                    auto derived_key = mac.get_empty_digest();
+                    mac
                         << gsl::as_bytes( gsl::ensure_z("for round") )
                         >> derived_key;
                     //std::cout << "round key: " << tobin( derived_key ) << "\n";
