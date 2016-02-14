@@ -35,7 +35,7 @@ namespace vdr
             ~hmac();
 
             hmac & operator << ( gsl::span< gsl::byte const > input  );
-            void   operator >> ( gsl::span< gsl::byte > output );
+            void   operator >> ( gsl::span< gsl::byte, digest_bytes > output );
 
             void clear();
 
@@ -141,7 +141,7 @@ namespace vdr
         }
 
         template< class Hash >
-        void hmac< Hash >::operator >> ( gsl::span< gsl::byte > output )
+        void hmac< Hash >::operator >> ( gsl::span< gsl::byte, digest_bytes > output )
         {
             {
                 {
