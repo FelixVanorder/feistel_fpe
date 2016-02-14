@@ -18,7 +18,7 @@ namespace vdr
         class hmac
         {
         public:
-            enum : size_t { 
+            enum : size_t {
                 digest_bytes = Hash::digest_bytes,
                 digest_bits = Hash::digest_bits,
                 block_bytes = Hash::block_bytes,
@@ -102,34 +102,30 @@ namespace vdr
         {
             if( rawkey.size_bytes() > _key.size() )
             {
-                {                    
-                    _hash << rawkey >> _key;
-                    auto keyview = gsl::as_span( _key ).first( _hash.digest_size_bytes() );
-                    auto keyview_rest = gsl::as_span( _key ).subspan( _hash.digest_size_bytes() );
+                _hash << rawkey >> _key;
+                auto nonempty_key_span = gsl::as_span( _key ).first( _hash.digest_size_bytes() );
+                auto empty_key_span = gsl::as_span( _key ).subspan( _hash.digest_size_bytes() );
 
-                    std::for_each(
-                        keyview.begin(), keyview.end(), 
-                        []( gsl::byte & byte ) { byte ^= inner_pad; } 
-                    );
+                std::for_each(
+                    nonempty_key_span.begin(), nonempty_key_span.end(),
+                    []( gsl::byte & byte ) { byte ^= inner_pad; }
+                );
 
-                    std::fill( keyview_rest.begin(), keyview_rest.end(), inner_pad );
-                }
+                std::fill( empty_key_span.begin(), empty_key_span.end(), inner_pad );
             }
             else
             {
-                {
-                    auto trans_end = std::transform( 
-                        rawkey.begin(), rawkey.end(), 
-                        _key.begin(), 
-                        []( gsl::byte const byte ) { return byte ^ inner_pad; } 
-                    );
-                    std::fill( trans_end, _key.end(), inner_pad );
-                }
+                auto nonempty_end = std::transform(
+                    rawkey.begin(), rawkey.end(),
+                    _key.begin(),
+                    []( gsl::byte const byte ) { return byte ^ inner_pad; }
+                );
+                std::fill( nonempty_end, _key.end(), inner_pad );
             }
             _hash << _key;
         }
 
-        
+
         template< class Hash >
         hmac< Hash >::~hmac()
         {
@@ -152,9 +148,9 @@ namespace vdr
                     std::array<gsl::byte, Hash::digest_bytes> inner_hash;
                     _hash >> inner_hash;
 
-                    std::for_each( 
-                        _key.begin(), _key.end(), 
-                        []( gsl::byte & byte ) { byte ^= inner_pad ^ outer_pad; } 
+                    std::for_each(
+                        _key.begin(), _key.end(),
+                        []( gsl::byte & byte ) { byte ^= inner_pad ^ outer_pad; }
                     );
 
                     _hash << _key << inner_hash;
@@ -163,9 +159,9 @@ namespace vdr
                 _hash >> output;
             }
 
-            std::for_each( 
-                _key.begin(), _key.end(), 
-                []( gsl::byte & byte ) { byte ^= outer_pad ^ inner_pad; } 
+            std::for_each(
+                _key.begin(), _key.end(),
+                []( gsl::byte & byte ) { byte ^= outer_pad ^ inner_pad; }
             );
 
             _hash << _key;
