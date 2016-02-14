@@ -131,20 +131,22 @@ namespace vdr
             {
                 vdr::mac::hmac< vdr::hash::sha256 > hash( gsl::as_bytes( gsl::as_span(raw_key) ) );
                 {
-                    std::array< uint8_t, decltype(hash)::digest_bytes > derived_key;
+                    std::array< gsl::byte, decltype(hash)::digest_bytes > derived_key;
                     hash
                         << gsl::as_bytes( gsl::ensure_z("for key") )
-                        >> gsl::as_writeable_bytes( gsl::as_span( derived_key ) );
+                        >> derived_key;
                     //std::cout << "source key: " << tobin( derived_key ) << "\n";
-                    _source_cipher.set_enc_key( gsl::as_bytes( gsl::as_span(derived_key) ) );
+                    _source_cipher.set_enc_key( derived_key );
+                    vdr::wipe( derived_key );
                 }
                 {
-                    std::array< uint8_t, decltype(hash)::digest_bytes > derived_key;
+                    std::array< gsl::byte, decltype(hash)::digest_bytes > derived_key;
                     hash
                         << gsl::as_bytes( gsl::ensure_z("for round") )
-                        >> gsl::as_writeable_bytes( gsl::as_span( derived_key ) );
+                        >> derived_key;
                     //std::cout << "round key: " << tobin( derived_key ) << "\n";
-                    _round_cipher.set_enc_key( gsl::as_bytes( gsl::as_span(derived_key) ) );
+                    _round_cipher.set_enc_key( derived_key );
+                    vdr::wipe( derived_key );
                 }
             }
 
