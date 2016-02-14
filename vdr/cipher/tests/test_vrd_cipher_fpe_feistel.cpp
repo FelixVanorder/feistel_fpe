@@ -17,7 +17,7 @@ std::string tohex( gsl::span< gsl::byte const > data );
 std::string tohex( std::string const & data );
 
 
-void test_cipher_fpe_feistel()
+int test_cipher_fpe_feistel()
 {
     {
         constexpr const char rawkey[16] = "SomeKeyRightHer";
@@ -30,18 +30,33 @@ void test_cipher_fpe_feistel()
         std::cout << "Encryption:\n";
         for( auto i = 0; i < domain_size; ++i )
         {
-            std::cout << std::setw(2) << i << " -> " << std::setw(2) << fpe_feistel.encrypt(i) << "\n";
+            std::cerr << std::setw(2) << i << " -> " << std::setw(2) << fpe_feistel.encrypt(i) << "\n";
         }
 
         std::cout << "Decryption:\n";
         for( auto i = 0; i < domain_size; ++i )
         {
-            std::cout << std::setw(2) << i << " -> " << std::setw(2) << fpe_feistel.decrypt(i) << "\n";
+            std::cerr << std::setw(2) << i << " -> " << std::setw(2) << fpe_feistel.decrypt(i) << "\n";
         }
-        std::cout << std::flush;
+        std::cerr << std::flush;
+
+        for( auto i = 0; i < domain_size; ++i )
+        {
+            auto const enc_i = fpe_feistel.encrypt( i );
+            auto const dec_enc_i = fpe_feistel.decrypt( enc_i );
+            if( i != dec_enc_i )
+            {
+                std::cout << "error:\n"
+                    <<     i << " -enc-> " << enc_i << "\n"
+                    << enc_i << " -dec-> " << dec_enc_i << "\n"
+                    << std::flush;
+                return 1;
+            }
+        }
 
     }
 
+    return 0;
 }
 
 
@@ -49,8 +64,7 @@ void test_cipher_fpe_feistel()
 
 int main( int ac, char *av[] )
 {
-    test_cipher_fpe_feistel();
-    return 0;
+    return test_cipher_fpe_feistel();
 }
 
 
