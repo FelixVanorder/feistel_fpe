@@ -7,7 +7,7 @@
 
 #include "microsoft/gsl.h"
 
-#include "vdr/byte.h"
+#include "vdr/wipe.h"
 
 
 namespace vdr
