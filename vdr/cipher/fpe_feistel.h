@@ -328,7 +328,7 @@ namespace vdr
                         uintmax_t const source = value >> _target_bits;
                         //std::cout << "     source: " << ::tobin( source ) << "\n";
 
-                        uintmax_t target = value & 1;
+                        uintmax_t target = value & ( ( uintmax_t(1) << _target_bits ) - 1 );
                         //std::cout << "     target: " << ::tobin( target ) << "\n";
 
                         target ^= _f_function( source, round );
