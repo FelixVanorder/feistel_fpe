@@ -25,18 +25,18 @@ void test_cipher_fpe_feistel()
 
 
         enum { domain_size = 17 };
-        vdr::cipher::thorp_feistel_cipher_t feistel( domain_size, "secret key" );
+        vdr::cipher::fpe_feistel fpe_feistel( domain_size, "secret key" );
         
         std::cout << "Encryption:\n";
         for( auto i = 0; i < domain_size; ++i )
         {
-            std::cout << std::setw(2) << i << " -> " << std::setw(2) << feistel.encrypt(i) << "\n";
+            std::cout << std::setw(2) << i << " -> " << std::setw(2) << fpe_feistel.encrypt(i) << "\n";
         }
 
         std::cout << "Decryption:\n";
         for( auto i = 0; i < domain_size; ++i )
         {
-            std::cout << std::setw(2) << i << " -> " << std::setw(2) << feistel.decrypt(i) << "\n";
+            std::cout << std::setw(2) << i << " -> " << std::setw(2) << fpe_feistel.decrypt(i) << "\n";
         }
         std::cout << std::flush;
 

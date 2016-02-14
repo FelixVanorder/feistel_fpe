@@ -256,13 +256,13 @@ namespace vdr
         };
 
         template< class FFunction >
-        class small_feistel_cipher
+        class basic_fpe_feistel
         {
         public:
             typedef FFunction f_function;
 
         public:
-            small_feistel_cipher( uintmax_t _domain_size, std::string const & raw_key)
+            basic_fpe_feistel( uintmax_t _domain_size, std::string const & raw_key)
                 : _f_function( _domain_size, raw_key )
                 , _domain_size( _f_function.get_domain_size() )
                 , _source_bits( _f_function.get_source_bits() )
@@ -277,7 +277,7 @@ namespace vdr
             {
                 if( value >= _domain_size )
                 {
-                    throw std::overflow_error( TO_STR( small_feistel_cipher ) "::" + std::string( __FUNCTION__ ) + ": value is out of domain" );
+                    throw std::overflow_error( TO_STR( basic_fpe_feistel ) "::" + std::string( __FUNCTION__ ) + ": value is out of domain" );
                 }
 
                 do
@@ -314,7 +314,7 @@ namespace vdr
             {
                 if( value >= _domain_size )
                 {
-                    throw std::overflow_error( TO_STR( small_feistel_cipher ) ": value is out of domain" );
+                    throw std::overflow_error( TO_STR( basic_fpe_feistel ) ": value is out of domain" );
                 }
 
                 do
@@ -355,7 +355,7 @@ namespace vdr
             const size_t _domain_bits;
         };
 
-        typedef small_feistel_cipher<thorp_shuffle> thorp_feistel_cipher_t;
+        typedef basic_fpe_feistel<thorp_shuffle> fpe_feistel;
 
 
 
