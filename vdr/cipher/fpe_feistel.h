@@ -16,7 +16,7 @@ namespace vdr
         public:
             thorp_shuffle( uintmax_t domain_size, std::string const & raw_key );
 
-            uintmax_t operator () ( uintmax_t const & source, size_t const round );
+            uintmax_t operator () ( uintmax_t const source, size_t const round );
 
             uintmax_t get_domain_size() const { return _domain_size; }
             size_t get_source_bits() const { return _source_bits; }
@@ -216,7 +216,7 @@ namespace vdr
             }
         }
 
-        uintmax_t thorp_shuffle::operator () ( uintmax_t const & source, size_t const round )
+        uintmax_t thorp_shuffle::operator () ( uintmax_t const source, size_t const round )
         {
             //std::cout << "thorp_shuffle(): "  << "              round: " << round << "\n";
 
