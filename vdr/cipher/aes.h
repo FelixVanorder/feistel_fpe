@@ -14,7 +14,7 @@ namespace vdr
         template< size_t KeyBits = 128 >
         class aes
         {
-            static_assert( KeyBits == 128 or KeyBits == 192 or KeyBits == 256, "Byte must be an 8-bit value." );
+            static_assert( KeyBits == 128 or KeyBits == 192 or KeyBits == 256, "Invalid AES key length value." );
 
         public:
             enum : size_t { key_bits = KeyBits };
